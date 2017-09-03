@@ -5,23 +5,23 @@ from flask import render_template
 from flask import request 
 from flask import session 
 from flask import url_for, redirect, escape
-application = Flask(__name__)
-application.secret_key = 'super secret key'
-application.config['SESSION_TYPE'] = 'filesystem'
+app = Flask(__name__)
+app.secret_key = 'super secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
 
-@application.route("/")
+@app.route("/")
 def hello():
     return "Hello World!"
 
-@application.route("/basil")
+@app.route("/basil")
 def showIndex():
 	return render_template('index.html')
 
-@application.route("/connect")
+@app.route("/connect")
 def showadded():
 	return render_template('connect.html')
 
-@application.route("/addstuff", methods=['POST'])
+@app.route("/addstuff", methods=['POST'])
 def addStuff():
 
 	session['databasename'] = request.form['dbname']
@@ -32,16 +32,16 @@ def addStuff():
 	connektBasilR()
 	return render_template("showtables.html")
 
-@application.route("/test")
+@app.route("/test")
 def testHTML():
     return render_template('test.html')
 
-@application.route("/showtables")
+@app.route("/showtables")
 def showTables():
 	connektBasilR()
 	return render_template('showtables.html')
 
-@application.route("/showdata", methods=['POST'])
+@app.route("/showdata", methods=['POST'])
 def showData():
 	session['chosentable']=request.form['chosentable']
 	connektBasil(request.form['chosentable'])
@@ -67,7 +67,7 @@ def connektBasilR():
 
 	for table in alltables:
 	    stripped = "%s" % table
-	    theList.applicationend(stripped)
+	    theList.append(stripped)
  
 	cursor.close()	    	    
 	session['alltables']=theList
@@ -93,7 +93,7 @@ def connektBasil(tablename):
 	table = tablename
 
 	for oneTable in alltables:
-  		theList.applicationend(oneTable)
+  		theList.append(oneTable)
   	
   	showsql="select * from "+table
 	cursor.execute(showsql)
@@ -105,6 +105,6 @@ def connektBasil(tablename):
 	session['colnames']=colnames
 	session['values']=values
 if __name__ == "__main__":
-    httpd = make_server('', 8000, applicationlication)
+    httpd = make_server('', 8000, application)
     print("Serving on port 8000...")
     httpd.serve_forever()
