@@ -104,7 +104,4 @@ def connektBasil(tablename):
 	session['alltables']=theList
 	session['colnames']=colnames
 	session['values']=values
-if __name__ == "__main__":
-    httpd = make_server('', 8000, applicationlication)
-    print("Serving on port 8000...")
-    httpd.serve_forever()
+
