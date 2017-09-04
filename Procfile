@@ -1,2 +1,2 @@
-export FLASK_APP=basil.py
-python -m flask run
+web: export FLASK_APP=basil.py
+web: python -m flask run
